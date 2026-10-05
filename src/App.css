@@ -1,0 +1,29 @@
+.lab-shell {
+  width: min(44rem, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 5rem 0;
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  color: #58a6ff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lab-shell h1 {
+  margin: 0;
+  font-size: clamp(2.25rem, 8vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.lab-status {
+  max-width: 34rem;
+  margin-top: 1.5rem;
+  color: #9da7b3;
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
