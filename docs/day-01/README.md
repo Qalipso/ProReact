@@ -26,23 +26,32 @@ below for easier reading.
 - [Polished mental model](mental-model.md)
 - [Documentation and videos](resources.md)
 
-## Practical task: issue triage board
+## Reference implementation: issue triage board
 
-Build the board from scratch. It should eventually support adding, editing,
-filtering, selecting, and intentionally resetting issues or an editor.
+The repository now contains a complete example instead of an empty starter.
+Read it in this order:
 
-Suggested ownership:
+1. `src/App.jsx` — composition root with no application state.
+2. `src/components/SnapshotLab.jsx` — snapshots, batching, functional updates,
+   and an intentional stale closure.
+3. `src/components/IssueBoard.jsx` — props, lifted selection, stable keys, and
+   values derived during render.
+4. `src/components/IssueEditor.jsx` — keyed identity and a reducer-owned draft.
+5. `src/main.jsx` — development `StrictMode` boundary.
+
+The implemented ownership tree is:
 
 ```text
-IssueBoard
-├── issues
-├── filter
-├── selectedId
-├── AddIssueForm
-├── FilterBar
-├── IssueList
-│   └── IssueRow
-└── IssueEditor
+App
+├── IssueBoard
+│   ├── URL filters
+│   ├── server-cache subscription
+│   ├── selectedIssueId
+│   ├── FilterBar
+│   ├── IssueList
+│   │   └── IssueCard
+│   └── IssueEditor (keyed local reducer)
+└── SnapshotLab (isolated Day 1 experiment)
 ```
 
 Keep derived values out of state when possible:
@@ -53,21 +62,23 @@ const visibleIssues = issues.filter((issue) =>
 )
 ```
 
-## Required bug experiments
+## Runtime experiments included in the app
 
 ### 1. Stale closure
 
-Schedule an issue update from an old render snapshot. Reproduce a lost update,
-then write the root cause before fixing it.
+Use **Schedule stale +1**, then press **Add 3** before the timer fires. The old
+callback replaces the newer count because it captured an earlier render's
+`count`. Repeat with **Schedule safe +1**: its functional updater transforms the
+latest queued value instead.
 
 > The delayed callback was created during render ____. It captured ____. Before
 > it ran, ____. It later calculated the next state from ____, causing ____.
 
-### 2. Incorrect key
+### 2. Identity and keys
 
-Use an array index as the key while a row owns local draft state. Edit one row,
-then filter, delete, insert, or reorder earlier rows. Record which draft moves
-before replacing the key with `issue.id`.
+Issue rows use `issue.id`, so filtering does not transfer identity between rows.
+The editor also uses `key={selectedIssue.id}` intentionally: start editing one
+issue, select another, and observe that the old local draft is reset.
 
 > The key represented ____, not the issue's identity. After ____, React matched
 > the previous row identity to ____, so the local state ____.
@@ -83,11 +94,11 @@ Answer without reading notes:
 
 ## Completion evidence
 
-- [ ] The application starts locally.
-- [ ] Add, edit, filter, select, and reset work.
-- [ ] Both intentional bugs have before/after reproduction notes.
-- [ ] Stable IDs are used as list keys in the fixed version.
-- [ ] An intentional reset is demonstrated with a changed key.
-- [ ] Strict Mode observations are written down.
+- [x] The application starts locally.
+- [x] Edit, filter, select, save, and reset work.
+- [x] Stale and safe delayed updates are reproducible in the UI.
+- [x] Stable IDs are used as list keys.
+- [x] A changed editor key intentionally resets its local reducer.
+- [x] The root is wrapped in Strict Mode.
 - [ ] All four verbal answers can be given without reading.
-- [ ] `npm run lint` and `npm run build` pass.
+- [x] Tests, lint, and production build pass.

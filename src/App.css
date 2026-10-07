@@ -1,29 +1,430 @@
-.lab-shell {
-  width: min(44rem, calc(100% - 2rem));
+:root {
+  --page: #ffffff;
+  --ink: #171717;
+  --muted: #686868;
+  --line: #dedede;
+  --line-strong: #b9b9b9;
+  --soft: #f6f6f4;
+  --selection: #f5ce36;
+  --danger: #b42318;
+  --success: #137333;
+}
+
+button,
+input,
+select,
+textarea { color: inherit; }
+
+button { cursor: pointer; }
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.app-shell {
+  width: min(74rem, calc(100% - 3rem));
   margin: 0 auto;
-  padding: 5rem 0;
+  padding: 3.5rem 0 5rem;
 }
 
-.eyebrow {
-  margin: 0 0 0.75rem;
-  color: #58a6ff;
-  font-size: 0.875rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.page-header {
+  padding-bottom: 2.2rem;
+  border-bottom: 1px solid var(--line-strong);
 }
 
-.lab-shell h1 {
+.page-header h1 {
   margin: 0;
-  font-size: clamp(2.25rem, 8vw, 4.5rem);
-  line-height: 1;
-  letter-spacing: -0.05em;
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  line-height: 0.95;
+  letter-spacing: -0.065em;
 }
 
-.lab-status {
-  max-width: 34rem;
-  margin-top: 1.5rem;
-  color: #9da7b3;
+.page-header p,
+.demo-heading p,
+.snapshot-copy p {
+  margin: 0.8rem 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.demo-section { padding-top: 2.25rem; }
+.demo-heading { margin-bottom: 1.4rem; }
+
+.demo-heading h2,
+.snapshot-copy h2 {
+  margin: 0;
+  font-size: 1.55rem;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(20rem, 0.8fr);
+  min-height: 34rem;
+  border: 1px solid var(--line-strong);
+}
+
+.board-panel {
+  min-width: 0;
+  border-right: 1px solid var(--line-strong);
+}
+
+.filters {
+  padding: 1.2rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.filter-controls {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1fr) 10rem 10rem;
+  gap: 0.65rem;
+}
+
+.filter-controls input,
+.filter-controls select,
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: var(--page);
+}
+
+.filter-controls input,
+.filter-controls select {
+  height: 2.7rem;
+  padding: 0 0.75rem;
+}
+
+.filter-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 1.2rem;
+  margin-top: 0.7rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.text-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.8rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.issue-list { display: grid; }
+
+.issue-list-header,
+.issue-row {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(12rem, 1fr) 7rem 5rem;
+  gap: 1rem;
+  align-items: center;
+}
+
+.issue-list-header {
+  min-height: 2.6rem;
+  padding: 0 1rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.issue-row {
+  width: 100%;
+  min-height: 3.85rem;
+  padding: 0.75rem 1rem;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--page);
+  text-align: left;
+}
+
+.issue-row:last-child { border-bottom: 0; }
+.issue-row:hover { background: var(--soft); }
+
+.issue-row.is-selected,
+.issue-row.is-selected:hover { background: var(--selection); }
+
+.issue-row span {
+  color: #4f4f4f;
+  font-size: 0.77rem;
+}
+
+.issue-row .issue-id {
+  color: var(--ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.issue-row strong {
+  overflow: hidden;
+  font-size: 0.84rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.detail-panel {
+  min-width: 0;
+  background: var(--page);
+}
+
+.editor { padding: 1.55rem; }
+
+.editor-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.editor-heading h2,
+.empty-selection h2 {
+  margin: 0;
   font-size: 1.1rem;
-  line-height: 1.7;
+  letter-spacing: -0.02em;
+}
+
+.editor-heading p {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.editor-fields { display: grid; gap: 1rem; }
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+  color: #3f3f3f;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.field input,
+.field select,
+.field textarea {
+  padding: 0.7rem 0.75rem;
+  resize: vertical;
+  font-size: 0.82rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.field small {
+  color: var(--danger);
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.primary-button,
+.secondary-button {
+  min-height: 2.65rem;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: var(--ink);
+  color: white;
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.primary-button:disabled { cursor: wait; opacity: 0.55; }
+
+.secondary-button {
+  background: var(--page);
+  color: var(--ink);
+}
+
+.review-card {
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+
+.review-row {
+  display: grid;
+  grid-template-columns: 5rem minmax(0, 1fr);
+  gap: 0.8rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.review-row > span {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.review-row > strong {
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.review-row.is-multiline { grid-template-columns: 1fr; }
+.review-row.is-multiline strong { font-weight: 400; }
+
+.editor-actions {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.save-message {
+  margin: 1rem 0 0;
+  padding: 0.7rem;
+  border: 1px solid currentColor;
+  font-size: 0.75rem;
+}
+
+.save-message.success { color: var(--success); }
+.save-message.error { color: var(--danger); }
+
+.empty-selection {
+  display: grid;
+  min-height: 28rem;
+  padding: 2rem;
+  place-content: center;
+  text-align: center;
+}
+
+.empty-selection p {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.board-message {
+  margin: 1.25rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  text-align: center;
+}
+
+.board-message strong { color: var(--ink); }
+.board-message p { margin: 0.4rem 0 0; font-size: 0.8rem; }
+.board-message.is-error { border-color: var(--danger); }
+
+.snapshot-lab {
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.55fr) minmax(0, 1.45fr);
+  gap: 3rem;
+  margin-top: 3rem;
+  padding-top: 2.4rem;
+  border-top: 1px solid var(--line-strong);
+}
+
+.snapshot-console {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: 1rem 1.5rem;
+}
+
+.snapshot-value {
+  grid-row: span 2;
+  display: grid;
+  min-height: 8rem;
+  place-content: center;
+  border: 1px solid var(--line-strong);
+  background: var(--soft);
+  text-align: center;
+}
+
+.snapshot-value strong {
+  font-size: 3.2rem;
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+
+.snapshot-observation {
+  align-self: center;
+  min-height: 2.5rem;
+  margin: 0;
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.73rem;
+  line-height: 1.55;
+}
+
+.snapshot-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.snapshot-actions .primary-button,
+.snapshot-actions .secondary-button {
+  min-height: 2.35rem;
+  padding: 0.5rem 0.72rem;
+  font-size: 0.72rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 900px) {
+  .workspace { grid-template-columns: 1fr; }
+
+  .board-panel {
+    border-right: 0;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .snapshot-lab {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 680px) {
+  .app-shell {
+    width: min(100% - 1.25rem, 74rem);
+    padding: 2rem 0 3rem;
+  }
+
+  .filter-controls,
+  .field-row,
+  .snapshot-console { grid-template-columns: 1fr; }
+
+  .issue-list-header { display: none; }
+
+  .issue-row {
+    grid-template-columns: 5.4rem minmax(0, 1fr);
+    gap: 0.35rem 0.8rem;
+  }
+
+  .issue-row strong { white-space: normal; }
+
+  .snapshot-value {
+    grid-row: auto;
+    min-height: 6.5rem;
+  }
 }
